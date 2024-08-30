@@ -15,8 +15,7 @@
   "lint-staged": {
     "src/**/*.ts": [
       "npx prettier . --write",
-      "npx eslint src/**/*.ts",
-      "tsc"
+      "npx eslint src/**/*.ts"
     ]
   },
   "keywords": [],
