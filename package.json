@@ -37,6 +37,8 @@
     "typescript": "^5.5.4"
   },
   "dependencies": {
-    "express": "^4.19.2"
+    "celebrate": "^15.0.3",
+    "express": "^4.19.2",
+    "mongoose": "^8.6.0"
   }
 }
