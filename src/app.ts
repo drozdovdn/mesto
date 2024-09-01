@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 import { errors } from 'celebrate';
 
 import { cardRouter, userRouter } from './routes';
+import NotFoundError from './errors/no-found-error';
 
 const { PORT = 3000 } = process.env;
 
@@ -27,14 +28,17 @@ app.use('/cards', cardRouter);
 
 app.use(errors());
 
-app.use((err: Error & { statusCode: number }, req: Request, res: Response) => {
+app.use((req: Request, res: Response, next: NextFunction) => {
+  const err = new NotFoundError('Ничего не найдено');
+  next(err);
+});
+app.use((err: Error & { statusCode: number }, req: Request, res: Response, next: NextFunction) => {
   const { statusCode = 500, message } = err;
-
   res.status(statusCode).send({
     message: statusCode === 500 ? 'На сервере произошла ошибка' : message,
   });
 });
 
 app.listen(+PORT, () => {
-  console.log(`Server started on port  ${PORT}`);
+  console.log(`Сервер запушен на порту  ${PORT}`);
 });

@@ -5,13 +5,25 @@ import NotFoundError from '../errors/no-found-error';
 export const getCards = (req: Request, res: Response, next: NextFunction) =>
   CardModel.find({})
     .then((cards) => res.send(cards))
-    .catch(next);
+    .catch((err) => {
+      if (err.name === 'ValidationError') {
+        next(err);
+      } else {
+        next(err);
+      }
+    });
 
 export const createCard = (req: Request & { user?: { _id: string } }, res: Response, next: NextFunction) => {
   const { name, link } = req.body;
   return CardModel.create({ name, link, owner: req?.user?._id })
     .then((card) => res.send(card))
-    .catch(next);
+    .catch((err) => {
+      if (err.name === 'ValidationError') {
+        next(err);
+      } else {
+        next(err);
+      }
+    });
 };
 
 export const deleteCardId = (req: Request, res: Response, next: NextFunction) =>
@@ -22,14 +34,32 @@ export const deleteCardId = (req: Request, res: Response, next: NextFunction) =>
       }
       res.send({ message: 'Карточка удалена' });
     })
-    .catch(next);
+    .catch((err) => {
+      if (err.name === 'ValidationError') {
+        next(err);
+      } else {
+        next(err);
+      }
+    });
 
 export const likeCard = (req: Request & { user?: { _id: string } }, res: Response, next: NextFunction) =>
   CardModel.findByIdAndUpdate(req.params.cardId, { $addToSet: { likes: req?.user?._id } }, { new: true })
     .then((card) => res.send(card))
-    .catch(next);
+    .catch((err) => {
+      if (err.name === 'ValidationError') {
+        next(err);
+      } else {
+        next(err);
+      }
+    });
 
 export const dislikeCard = (req: Request & { user?: { _id: string } }, res: Response, next: NextFunction) =>
   CardModel.findByIdAndUpdate(req.params.cardId, { $pull: { likes: req?.user?._id } }, { new: true })
     .then((card) => res.send(card))
-    .catch(next);
+    .catch((err) => {
+      if (err.name === 'ValidationError') {
+        next(err);
+      } else {
+        next(err);
+      }
+    });
